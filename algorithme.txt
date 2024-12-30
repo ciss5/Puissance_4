@@ -1,0 +1,34 @@
+algorithm : puissance-4
+constantes 
+ currentPlayer = 1; // Joueur 1 commence (jeton jaune)
+numRows = 6; // Nombre de lignes dans la grille
+numCols = 7; // Nombre de colonnes dans la grille
+board = []; // Tableau pour stocker l'état de la grille de jeu
+variables 
+ debut 
+                      1. jeux 
+
+// Fonction pour initialiser la grille de jeu
+  •	Créer une grille de jeu vide avec 6 lignes et 7 colonnes.
+•	Chaque case de la grille peut être vide, contenir un jeton jaune (Joueur 1) ou un jeton rouge (Joueur 2).
+•	Le joueur 1 commence la partie
+// Fonction pour afficher la grille de jeu
+                      2. Deroulement du jeux 
+// Fonction pour placer un jeton dans une colonne
+•	Demander au joueur en cours de sélectionner une colonne où placer son jeton.
+•	Si la colonne est pleine, demander au joueur de choisir une autre colonne.
+•	Sinon, placer le jeton du joueur dans la première case vide de cette colonne
+// Fonction pour mettre à jour l'apparence visuelle d'une cellule de la grille
+                     3.	Vérification de la victoire :
+// Fonction pour vérifier s'il y a un alignement de quatre jetons
+
+•	Après chaque coup, vérifier s'il y a un alignement de quatre jetons de la même couleur.
+•	Vérifier les alignements horizontaux, verticaux et diagonaux.
+•	Si un joueur a aligné quatre jetons, annoncer qu'il a gagné la partie
+                    4.	Fin de la partie 
+•	Si un joueur gagne, annoncer la victoire et terminer le jeu.
+•	Si la grille est remplie sans qu'aucun joueur n'ait aligné quatre jetons, annoncer un match nul.
+
+
+
+ fin 

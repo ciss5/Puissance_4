@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puissance 4</title>
+    <style>
+        .cell {
+            width: 50px;
+            height: 50px;
+            border: 1px solid black;
+            background-color: white;
+        }
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            max-width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0; /* Couleur de fond */
+        }
+
+        #gameBoard {
+            background-color: blue; /* Couleur de fond du conteneur du jeu */
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .cell{
+            border-radius: 50%;
+            opacity: 0.8;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            background-color: white;
+            transition: opacity 0.3s;
+        }
+
+
+    </style>
+</head>
+<body>
+<table id="gameBoard">
+    <!-- Contenu du jeux -->
+</table>
+
+<script>
+    let currentPlayer = 1; // Joueur 1 commence (jeton jaune)
+    const numRows = 6;
+    const numCols = 7;
+    const board = [];
+
+    // Créer la grille de jeu avec des cellules vides
+    const gameBoard = document.getElementById('gameBoard');
+    for (let i = 0; i < numRows; i++) {
+        const row = document.createElement('tr');
+        const newRow = [];
+        for (let j = 0; j < numCols; j++) {
+            const cell = document.createElement('td');
+            cell.className = 'cell';
+            cell.dataset.column = j;
+            cell.dataset.row = i;
+            cell.addEventListener('click', () => dropPiece(j));
+            row.appendChild(cell);
+            newRow.push(0);
+        }
+        gameBoard.appendChild(row);
+        board.push(newRow);
+    }
+
+    // Fonction pour placer un jeton dans une colonne
+    function dropPiece(column) {
+        for (let i = numRows - 1; i >= 0; i--) {
+            if (board[i][column] === 0) {
+                board[i][column] = currentPlayer;
+                const cell = document.querySelector(`[data-row="${i}"][data-column="${column}"]`);
+                cell.style.backgroundColor = currentPlayer === 1 ? 'yellow' : 'red';
+                if (checkWin(i, column)) {
+                    alert(`Joueur ${currentPlayer === 1 ? '1 (Jeton jaune)' : '2 (Jeton rouge)'}  gagne bravo!`);
+                    resetBoard();
+                } else {
+                    currentPlayer = currentPlayer === 1 ? 2 : 1;
+                }
+                return;
+            }
+        }
+    }
+
+    // Fonction pour vérifier s'il y a un alignement de quatre jetons
+    function checkWin(row, col) {
+        // Vérifier l'alignement horizontal
+        let count = 1;
+        for (let i = col - 1; i >= 0; i--) {
+            if (board[row][i] === currentPlayer) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        for (let i = col + 1; i < numCols; i++) {
+            if (board[row][i] === currentPlayer) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        if (count >= 4) return true;
+
+        // Vérifier l'alignement vertical
+        count = 1;
+        for (let i = row - 1; i >= 0; i--) {
+            if (board[i][col] === currentPlayer) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        for (let i = row + 1; i < numRows; i++) {
+            if (board[i][col] === currentPlayer) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        if (count >= 4) return true;
+
+        // Vérifier l'alignement diagonal (vers le haut à gauche)
+        count = 1;
+        for (let i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+            if (board[i][j] === currentPlayer) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        for (let i = row + 1, j = col + 1; i < numRows && j < numCols; i++, j++) {
+            if (board[i][j] === currentPlayer) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        if (count >= 4) return true;
+
+        // Vérifier l'alignement diagonal (vers le haut à droite)
+        count = 1;
+        for (let i = row - 1, j = col + 1; i >= 0 && j < numCols; i--, j++) {
+            if (board[i][j] === currentPlayer) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        for (let i = row + 1, j = col - 1; i < numRows && j >= 0; i++, j--) {
+            if (board[i][j] === currentPlayer) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        if (count >= 4) return true;
+
+        return false;
+    }
+
+    // Fonction pour réinitialiser la grille de jeu
+    function resetBoard() {
+        for (let i = 0; i < numRows; i++) {
+            for (let j = 0; j < numCols; j++) {
+                const cell = document.querySelector(`[data-row="${i}"][data-column="${j}"]`);
+                cell.style.backgroundColor = 'white';
+            }
+        }
+        for (let i = 0; i < numRows; i++) {
+            for (let j = 0; j < numCols; j++) {
+                board[i][j] = 0;
+            }
+        }
+        currentPlayer = 1;
+    }
+</script>
+
+</body>
+</html>
